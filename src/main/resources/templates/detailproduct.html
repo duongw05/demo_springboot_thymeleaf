@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Product Detail</title>
+  <!-- Thêm Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container mt-4">
+  <h1 class="mb-4">Product Detail</h1>
+
+  <div class="form-group">
+    <label for="">Name</label>
+    <input type="text" class="form-control" name="productName" th:value="${product.productName}" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="">Color</label>
+    <input type="text" class="form-control" name="color" th:value="${product.color}" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="">Quantity</label>
+    <input type="text" class="form-control" name="quantity" th:value="${product.quantity}" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="">Sell Price</label>
+    <input type="text" class="form-control" name="sellPrice" th:value="${product.sellPrice}" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="">Origin Price</label>
+    <input type="text" class="form-control" name="originPrice" th:value="${product.originPrice}" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="">Brand Name</label>
+    <select class="form-control" name="brands" disabled>
+      <option th:each="br : ${brandList}" th:value="${br.id}" th:selected="${br.id == product.brandId}" th:text="${br.brandName}">Brand Name</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="">Subcategory</label>
+    <select class="form-control" name="subcategory" disabled>
+      <option th:each="sub : ${subcategories}" th:value="${sub.id}" th:selected="${sub.id == product.subcategoryId}" th:text="${sub.subCateName}">Subcategory</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="">Status</label>
+    <select class="form-control" name="status" disabled>
+      <option th:each="st : ${statuses}" th:value="${st.id}" th:selected="${st.id == product.statusId}" th:text="${st.statusName}">Status</option>
+    </select>
+  </div>
+
+  <!-- Nút quay lại danh sách sản phẩm -->
+  <button type="button" class="btn btn-secondary" th:onclick="|window.location.href='@{/hien-thi/products}'|">Close</button>
+
+</div>
+
+<!-- Thêm jQuery và Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Product Update</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Product Update</h1>
+
+    <!-- Hiển thị thông báo thành công hoặc lỗi -->
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:object="${product}" th:action="@{/hien-thi/products/update/{id}(id=${product.id})}" method="post">
+
+        <!-- Name -->
+        <div class="form-group">
+            <label for="productName">Name</label>
+            <input type="text" class="form-control" id="productName" th:field="*{productName}">
+            <div th:if="${#fields.hasErrors('productName')}" class="text-danger">
+                <p th:errors="*{productName}"></p>
+            </div>
+        </div>
+
+        <!-- Color -->
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="text" class="form-control" id="color" th:field="*{color}">
+            <div th:if="${#fields.hasErrors('color')}" class="text-danger">
+                <p th:errors="*{color}"></p>
+            </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" id="quantity" th:field="*{quantity}" min="1" oninput="checkNumber(this)">
+            <div th:if="${#fields.hasErrors('quantity')}" class="text-danger">
+                <p th:errors="*{quantity}"></p>
+            </div>
+        </div>
+
+        <!-- Sell Price -->
+        <div class="form-group">
+            <label for="sellPrice">Sell Price</label>
+            <input type="number" class="form-control" id="sellPrice" th:field="*{sellPrice}" min="1" oninput="checkNumber(this)">
+            <div th:if="${#fields.hasErrors('sellPrice')}" class="text-danger">
+                <p th:errors="*{sellPrice}"></p>
+            </div>
+        </div>
+
+        <!-- Origin Price -->
+        <div class="form-group">
+            <label for="originPrice">Origin Price</label>
+            <input type="number" class="form-control" id="originPrice" th:field="*{originPrice}" min="1" oninput="checkNumber(this)">
+            <div th:if="${#fields.hasErrors('originPrice')}" class="text-danger">
+                <p th:errors="*{originPrice}"></p>
+            </div>
+        </div>
+
+        <!-- Brand -->
+        <div class="form-group">
+            <label for="brandId">Brand Name</label>
+            <select class="form-control" id="brandId" th:field="*{brandId}">
+                <option th:each="br : ${brandList}" th:value="${br.id}" th:text="${br.brandName}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('brandId')}" class="text-danger">
+                <p th:errors="*{brandId}"></p>
+            </div>
+        </div>
+
+        <!-- Subcategory -->
+        <div class="form-group">
+            <label for="subcategoryId">Subcategory</label>
+            <select class="form-control" id="subcategoryId" th:field="*{subcategoryId}">
+                <option th:each="sub : ${subcategories}" th:value="${sub.id}" th:text="${sub.subCateName}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('subcategoryId')}" class="text-danger">
+                <p th:errors="*{subcategoryId}"></p>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group">
+            <label for="statusId">Status</label>
+            <select class="form-control" id="statusId" th:field="*{statusId}">
+                <option th:each="st : ${statuses}" th:value="${st.id}" th:text="${st.statusName}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('statusId')}" class="text-danger">
+                <p th:errors="*{statusId}"></p>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='/hien-thi/products'">Close</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function checkNumber(input) {
+        if (isNaN(input.value)) {
+            alert("Vui lòng nhập số hợp lệ.");
+            input.value = ""; // Reset giá trị của trường nhập
+        }
+    }
+</script>
+</body>
+</html>

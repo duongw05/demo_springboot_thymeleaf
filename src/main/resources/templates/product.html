@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Danh sách sản phẩm</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Danh Sách Sản Phẩm</h1>
+
+    <!-- Form tìm kiếm -->
+    <div class="d-flex justify-content-center">
+        <form th:action="@{/hien-thi/products}" method="post" class="form-inline mb-3">
+            <input type="text" name="productName" class="form-control mr-2" placeholder="Tên sản phẩm" th:value="${param.productName}" />
+            <input type="text" name="sellPrice" class="form-control mr-2" placeholder="Giá" th:value="${param.sellPrice}" />
+
+            <!-- Combo box cho Brand -->
+            <select class="form-control mr-2" name="brandId">
+                <option value="" disabled selected>Chọn thương hiệu</option>
+                <option th:each="brand : ${listBrand}" th:value="${brand.id}" th:text="${brand.brandName}"></option>
+            </select>
+
+            <!-- Combo box cho Subcategory -->
+            <select class="form-control mr-2" name="subcategoryId">
+                <option value="" disabled selected>Chọn danh mục phụ</option>
+                <option th:each="sub : ${subcategories}" th:value="${sub.id}" th:text="${sub.subCateName}"></option>
+            </select>
+
+            <!-- Combo box cho Status -->
+            <select class="form-control mr-2" name="statusId">
+                <option value="" disabled selected>Chọn trạng thái</option>
+                <option th:each="st : ${listStatus}" th:value="${st.id}" th:text="${st.statusName}"></option>
+            </select>
+
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <!-- Thông báo tổng số sản phẩm -->
+    <div class="alert alert-info">
+        Tổng số sản phẩm: <span th:text="${totalEntries}"></span>
+    </div>
+
+    <!-- Bảng hiển thị sản phẩm -->
+    <div class="mt-4">
+        <button class="btn btn-success mb-3" th:onclick="|window.location.href='/hien-thi/products/add'|">Thêm sản phẩm</button>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">Thương hiệu</th>
+                <th scope="col">Danh mục phụ</th>
+                <th scope="col">Giá bán</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Chức năng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pr, i : ${products}">
+                <td th:text="${offset + i.index + 1}"></td>
+                <td th:text="${pr.productName}"></td>
+                <td th:text="${pr.brandName}"></td>
+                <td th:text="${pr.subcateName}"></td>
+                <td th:text="${pr.sellPrice}"></td>
+                <td th:text="${pr.statusName}"></td>
+                <td>
+                    <a class="btn btn-info btn-sm" th:href="@{/hien-thi/products/detail/{id}(id=${pr.id})}">Chi tiết</a>
+                    <a class="btn btn-warning btn-sm" th:href="@{/hien-thi/products/update/{id}(id=${pr.id})}">Cập nhật</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Điều khiển phân trang -->
+    <nav th:if="${totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/hien-thi/products(page=${currentPage - 1})}" aria-label="Trước">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/hien-thi/products(page=${i})}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/hien-thi/products(page=${currentPage + 1})}" aria-label="Tiếp">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- jQuery và Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subcategory List</title>
+</head>
+<body>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Cate Name</th>
+        <th>Subcategory Code</th>
+        <th>Subcategory Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="sbcg : ${subcategories}">
+        <td th:text="${sbcg.id}"></td>
+        <td th:text="${sbcg.ctg.cate_name}"></td>
+        <td th:text="${sbcg.subCateCode}"></td>
+        <td th:text="${sbcg.subCateName}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

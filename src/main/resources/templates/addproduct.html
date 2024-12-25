@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Add Product</title>
+  <!-- Thêm Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .error-message {
+      color: red;
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container mt-4">
+  <h1 class="mb-4">Add Product</h1>
+
+  <form th:action="@{/hien-thi/products/add}" method="post" th:object="${productRequest}">
+
+    <!-- Tên sản phẩm -->
+    <div class="form-group">
+      <label for="productName">Product Name</label>
+      <input type="text" class="form-control" th:field="*{productName}" id="productName" placeholder="Enter product name">
+      <div th:if="${#fields.hasErrors('productName')}" class="error-message">
+        <span th:errors="*{productName}"></span>
+      </div>
+    </div>
+
+    <!-- Màu sắc -->
+    <div class="form-group">
+      <label for="color">Color</label>
+      <input type="text" class="form-control" th:field="*{color}" id="color" placeholder="Enter product color">
+      <div th:if="${#fields.hasErrors('color')}" class="error-message">
+        <span th:errors="*{color}"></span>
+      </div>
+    </div>
+
+    <!-- Số lượng -->
+    <div class="form-group">
+      <label for="quantity">Quantity</label>
+      <input type="number" class="form-control" th:field="*{quantity}" id="quantity" min="1" oninput="checkNumber(this)" placeholder="Enter quantity">
+      <div th:if="${#fields.hasErrors('quantity')}" class="error-message">
+        <span th:errors="*{quantity}"></span>
+      </div>
+    </div>
+
+    <!-- Giá bán -->
+    <div class="form-group">
+      <label for="sellPrice">Sell Price</label>
+      <input type="number" class="form-control" th:field="*{sellPrice}" id="sellPrice" min="1" oninput="checkNumber(this)" placeholder="Enter selling price">
+      <div th:if="${#fields.hasErrors('sellPrice')}" class="error-message">
+        <span th:errors="*{sellPrice}"></span>
+      </div>
+    </div>
+
+    <!-- Giá gốc -->
+    <div class="form-group">
+      <label for="originPrice">Origin Price</label>
+      <input type="number" class="form-control" th:field="*{originPrice}" id="originPrice" min="1" oninput="checkNumber(this)" placeholder="Enter origin price">
+      <div th:if="${#fields.hasErrors('originPrice')}" class="error-message">
+        <span th:errors="*{originPrice}"></span>
+      </div>
+    </div>
+
+    <!-- Tên thương hiệu -->
+    <div class="form-group">
+      <label for="brandId">Brand</label>
+      <select class="form-control" th:field="*{brandId}" id="brandId">
+        <option value="" disabled selected>Select Brand</option>
+        <option th:each="brand : ${listBrand}" th:value="${brand.id}" th:text="${brand.brandName}">Brand Name</option>
+      </select>
+      <div th:if="${#fields.hasErrors('brandId')}" class="error-message">
+        <span th:errors="*{brandId}"></span>
+      </div>
+    </div>
+
+    <!-- Loại sản phẩm -->
+    <div class="form-group">
+      <label for="subcategory">Subcategory</label>
+      <select class="form-control" th:field="*{subcategoryId}" id="subcategory">
+        <option value="" disabled selected>Select Subcategory</option>
+        <option th:each="sub : ${subcategories}" th:value="${sub.id}" th:text="${sub.subCateName}">Subcategory</option>
+      </select>
+      <div th:if="${#fields.hasErrors('subcategoryId')}" class="error-message">
+        <span th:errors="*{subcategoryId}"></span>
+      </div>
+    </div>
+
+    <!-- Trạng thái -->
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select class="form-control" th:field="*{statusId}" id="status">
+        <option value="" disabled selected>Select Status</option>
+        <option th:each="st : ${listStatus}" th:value="${st.id}" th:text="${st.statusName}">Status</option>
+      </select>
+      <div th:if="${#fields.hasErrors('statusId')}" class="error-message">
+        <span th:errors="*{statusId}"></span>
+      </div>
+    </div>
+
+    <!-- Nút Submit -->
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to add this product?')">Save</button>
+      <a th:href="@{/hien-thi/products}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<!-- Thêm jQuery và Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Optional: Custom validation for number inputs
+  function checkNumber(input) {
+    if (input.value < 1) {
+      input.setCustomValidity("Value must be greater than 0.");
+    } else {
+      input.setCustomValidity("");
+    }
+  }
+</script>
+
+</body>
+</html>
